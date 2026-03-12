@@ -1,0 +1,154 @@
+Age Group = 
+SWITCH(
+    TRUE(),
+    'Loan_data_2025'[age] >= 18 && 'Loan_data_2025'[age] <= 25, "18-25",
+    'Loan_data_2025'[age] >= 26 && 'Loan_data_2025'[age] <= 35, "26-35",
+    'Loan_data_2025'[age] >= 36 && 'Loan_data_2025'[age] <= 45, "36-45",
+    'Loan_data_2025'[age] >= 46 && 'Loan_data_2025'[age] <= 55, "46-55",
+    'Loan_data_2025'[age] >= 56, "56+",
+    "Unknown"
+)
+
+Applicants with Defaults = 
+CALCULATE(
+    COUNTROWS('Loan_data_2025'),
+    'Loan_data_2025'[defaults_on_file] > 0
+)
+
+Approval Flag = IF('Loan_data_2025'[loan_status] = 1, 1, BLANK())
+
+Approval Rate = 
+DIVIDE(
+    COUNTA('Loan_data_2025'[Approval Flag]),  
+    COUNTROWS('Loan_data_2025'),              
+    0
+)
+
+Approved Applications = 
+CALCULATE(
+    COUNTROWS('Loan_data_2025'),
+    'Loan_data_2025'[loan_status] = "1"
+)
+
+Avg Age = AVERAGE('Loan_data_2025'[age])
+
+Avg Annual Income = AVERAGE('Loan_data_2025'[annual_income])
+
+Avg Credit History Years = AVERAGE('Loan_data_2025'[credit_history_years])
+
+Avg Credit Score = AVERAGE('Loan_data_2025'[credit_score])
+
+Avg Current Debt = AVERAGE('Loan_data_2025'[current_debt])
+
+Avg Delinquencies = 
+AVERAGE('Loan_data_2025'[delinquencies_last_2yrs])
+
+Avg DTI = 
+AVERAGE('Loan_data_2025'[debt_to_income_ratio])
+
+Avg Employment Years = AVERAGE('Loan_data_2025'[years_employed])
+
+Avg Interest Rate = AVERAGE('Loan_data_2025'[interest_rate])
+
+Avg Loan Amount = AVERAGE('Loan_data_2025'[loan_amount])
+
+Avg Loan-to-Income Ratio = 
+AVERAGE('Loan_data_2025'[loan_to_income_ratio])
+
+Credit Score Band = 
+SWITCH(
+    TRUE(),
+    'Loan_data_2025'[credit_score] < 580, "<580",
+    'Loan_data_2025'[credit_score] >= 580 && 'Loan_data_2025'[credit_score] <= 669, "580-669",
+    'Loan_data_2025'[credit_score] >= 670 && 'Loan_data_2025'[credit_score] <= 739, "670-739",
+    'Loan_data_2025'[credit_score] >= 740 && 'Loan_data_2025'[credit_score] <= 799, "740-799",
+    'Loan_data_2025'[credit_score] >= 800, "800+",
+    "Unknown"
+)
+
+Defaults Label = 
+IF('Loan_data_2025'[defaults_on_file] > 0, "Has Default History", "No Default History")
+
+Delinquency Band = 
+SWITCH(
+    TRUE(),
+    'Loan_data_2025'[delinquencies_last_2yrs] = 0, "0",
+    'Loan_data_2025'[delinquencies_last_2yrs] = 1, "1",
+    'Loan_data_2025'[delinquencies_last_2yrs] <= 3, "2-3",
+    'Loan_data_2025'[delinquencies_last_2yrs] > 3, "4+",
+    "Unknown"
+)
+
+DTI Band = 
+SWITCH(
+    TRUE(),
+    'Loan_data_2025'[debt_to_income_ratio] < 0.1, "0-10%",
+    'Loan_data_2025'[debt_to_income_ratio] < 0.2, "10-20%",
+    'Loan_data_2025'[debt_to_income_ratio] < 0.3, "20-30%",
+    'Loan_data_2025'[debt_to_income_ratio] < 0.4, "30-40%",
+    'Loan_data_2025'[debt_to_income_ratio] >= 0.4, "40%+",
+    "Unknown"
+)
+
+DTI Band Sort Order = 
+SWITCH(
+    TRUE(),
+    'Loan_data_2025'[debt_to_income_ratio] < 0.1, 1,
+    'Loan_data_2025'[debt_to_income_ratio] < 0.2, 2,
+    'Loan_data_2025'[debt_to_income_ratio] < 0.3, 3,
+    'Loan_data_2025'[debt_to_income_ratio] < 0.4, 4,
+    'Loan_data_2025'[debt_to_income_ratio] >= 0.4, 5,
+    99
+)
+
+Income Band = 
+SWITCH(
+    TRUE(),
+    'Loan_data_2025'[annual_income] < 30000, "<30K",
+    'Loan_data_2025'[annual_income] >= 30000 && 'Loan_data_2025'[annual_income] < 50000, "30K-50K",
+    'Loan_data_2025'[annual_income] >= 50000 && 'Loan_data_2025'[annual_income] < 75000, "50K-75K",
+    'Loan_data_2025'[annual_income] >= 75000 && 'Loan_data_2025'[annual_income] < 100000, "75K-100K",
+    'Loan_data_2025'[annual_income] >= 100000, "100K+",
+    "Unknown"
+)
+
+Loan Status Label = 
+SWITCH(
+    'Loan_data_2025'[loan_status],
+    1, "Approved",
+    0, "Rejected",
+    "Unknown"  
+)
+
+Loan-to-Income Band = 
+SWITCH(
+    TRUE(),
+    'Loan_data_2025'[loan_to_income_ratio] < 0.5, "<50%",
+    'Loan_data_2025'[loan_to_income_ratio] < 1.0, "50-100%",
+    'Loan_data_2025'[loan_to_income_ratio] < 1.5, "100-150%",
+    'Loan_data_2025'[loan_to_income_ratio] >= 1.5, "150%+",
+    "Unknown"
+)
+
+Loan-to-Income Sort = 
+SWITCH(
+    TRUE(),
+    'Loan_data_2025'[loan_to_income_ratio] < 0.5, 1,
+    'Loan_data_2025'[loan_to_income_ratio] < 1.0, 2,
+    'Loan_data_2025'[loan_to_income_ratio] < 1.5, 3,
+    'Loan_data_2025'[loan_to_income_ratio] >= 1.5, 4,
+    99
+)
+
+Median Annual Income = MEDIAN('Loan_data_2025'[annual_income])
+
+Rejected Applications = 
+CALCULATE(
+    COUNTROWS('Loan_data_2025'),
+    'Loan_data_2025'[loan_status] = 0
+)
+
+Rejection Rate = 
+DIVIDE([Rejected Applications], [Total Applications], 0)
+
+Total Applications = COUNTROWS('Loan_data_2025')
