@@ -246,7 +246,7 @@ Set tighter review rules for applications with elevated DTI and combine this che
 
 ### 8.4 Chi-Square Test - Default History vs Loan Status
 
-![Chi-Square Test](screenshot/chitest.png)
+![Chi-Square Test](screenshot/chitesst.png)
 
 A chi-square test was conducted to evaluate the relationship between default history and loan outcome.
 
